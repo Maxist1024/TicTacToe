@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Castle.Windsor;
+using Castle.Windsor.Installer;
 using System.Windows;
 
 namespace TicTacToe.UI
@@ -13,5 +9,16 @@ namespace TicTacToe.UI
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            var container = new WindsorContainer();
+            container.Install(FromAssembly.This());
+
+
+            MainWindow window = container.Resolve<MainWindow>();
+            window.Show();
+
+            container.Release(window);
+        }
     }
 }
